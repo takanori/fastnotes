@@ -15,7 +15,8 @@ sub startup {
     $self->mode('development');
     $self->sessions->default_expiration(3600*24*7);
 
-    my $config = $self->plugin( 'JSONConfig' => { file=>'fastnotes.json' } );
+    # my $config = $self->plugin( 'JSONConfig' => { file=>'fastnotes.json' } );
+	my $config = $self->plugin( 'Config' => { file => 'fastnotes.conf' } );
 
     my $r = $self->routes;
     $r->namespaces(['FastNotes::Controller']);

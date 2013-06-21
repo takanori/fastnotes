@@ -1,8 +1,7 @@
 package FastNotes::Controller::Auths;
 
 use strict;
-use warnings;
-use v5.10;
+use warnings; use v5.10;
 
 use base 'Mojolicious::Controller';
 
@@ -12,7 +11,7 @@ sub create {
 
     my $login    = $self->param('login');
     my $password = $self->param('password');
-
+					
     my $user = FastNotes::Model::User->select({login => $login, password=>$password})->hash();
 
     if ( $login  && $user->{user_id} ) {
