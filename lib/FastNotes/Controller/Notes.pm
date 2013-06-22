@@ -24,8 +24,8 @@ sub create {
         date    => time()
     });
 
-	$self->render(json =>
-		scalar FastNotes::Model::Note->select( { note_id => $note_id } )->hash,
+	$self->render(
+		json => scalar FastNotes::Model::Note->select( { note_id => $note_id } )->hash,
 		status => 201
 	);
 }

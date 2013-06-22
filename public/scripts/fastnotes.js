@@ -60,7 +60,7 @@ $.fn.fastnotes = function(options) {
     
     var NOTES = [];
 
-    $.Read('/notes', function(data) {
+    $.Read('/notes', { limit: 10 }, function(data) {
 
         NOTES  = data;
         redraw_notes_list(NOTES);

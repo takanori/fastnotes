@@ -36,13 +36,13 @@ sub startup {
 
     $r->route('/help')   ->to( cb => sub{ shift->render( template=>'help', format=>'html' ) } );
 
-    # Init Model
-    FastNotes::Model->init( $config->{db} || {
-        dsn      => 'dbi:SQLite:dbname=' . $self->home->rel_dir('storage') . '/fastnotes.db',
-        user     => '',
-        password =>''
-    });
-
+	# # Init Model
+    # FastNotes::Model->init( $config->{db} || {
+        # dsn      => 'dbi:SQLite:dbname=' . $self->home->rel_dir('storage') . '/fastnotes.db',
+        # user     => '',
+        # password =>''
+    # });
+	FastNotes::Model->init($config->{db});
 }
 
 1;

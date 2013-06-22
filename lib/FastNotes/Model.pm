@@ -24,7 +24,6 @@ sub init {
         $DB = DBIx::Simple->connect(@$config{qw/dsn user password/},
             {
                  RaiseError     => 1,
-                 sqlite_unicode => 1,
             } )  or die DBIx::Simple->error;
         $DB->abstract = SQL::Abstract->new(
                case          => 'lower',
