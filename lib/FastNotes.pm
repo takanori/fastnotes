@@ -3,13 +3,13 @@ package FastNotes;
 use strict;
 use warnings;
 use Mojo::Base 'Mojolicious';
-use FastNotes::Model;
-
-
+require FastNotes::Model;
 
 # This method will run once at server start
 sub startup {
     my $self = shift;
+
+	$self->plugin('PODRenderer');
 
     $self->secret('SomethingVerySecret');
     $self->mode('development');
@@ -17,6 +17,8 @@ sub startup {
 
     # my $config = $self->plugin( 'JSONConfig' => { file=>'fastnotes.json' } );
 	my $config = $self->plugin( 'Config' => { file => 'fastnotes.conf' } );
+	$self->attr(db => sub {FastNotes::Model->new($config->{db})});
+	# TODO
 
     my $r = $self->routes;
     $r->namespaces(['FastNotes::Controller']);
@@ -42,7 +44,7 @@ sub startup {
         # user     => '',
         # password =>''
     # });
-	FastNotes::Model->init($config->{db});
+	# FastNotes::Model->init($config->{db});
 }
 
 1;

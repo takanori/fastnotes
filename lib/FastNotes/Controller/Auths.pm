@@ -1,10 +1,9 @@
 package FastNotes::Controller::Auths;
-
 use strict;
-use warnings; use v5.10;
+use warnings;
+use v5.10;
 
 use base 'Mojolicious::Controller';
-
 
 sub create {
     my ($self) = @_;
@@ -12,12 +11,19 @@ sub create {
     my $login    = $self->param('login');
     my $password = $self->param('password');
 					
-    my $user = FastNotes::Model::User->select({login => $login, password=>$password})->hash();
+    # my $user = FastNotes::Model::User->select({login => $login, password=>$password})->hash();
+	my $row = $self->app->db->single('users',
+		{
+			login => $login,
+			password => $password,
+		},
+		{ }
+	);
 
-    if ( $login  && $user->{user_id} ) {
+    if ( $row  && $row->user_id ) {
         $self->session(
-            user_id => $user->{user_id},
-            login   => $user->{login}
+            user_id => $row->user_id,
+            login   => $row->login
         )->redirect_to('users_show');
     }
     else {

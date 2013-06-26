@@ -1,5 +1,0 @@
-{
-	"dsn" : "dbi:mysql:fastnotes",
-	"user" : "webapp",
-	"password" : "Wepa"
-}

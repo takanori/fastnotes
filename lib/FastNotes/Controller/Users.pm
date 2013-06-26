@@ -23,9 +23,13 @@ CHECK: {
             last CHECK;
         }
 
-        my $user = FastNotes::Model::User->select({login => $login})->hash();
+        # my $user = FastNotes::Model::User->select({login => $login})->hash();
+		my $row = $self->app->db->search('users',
+			{ login => $login },
+			{ }
+		);
 
-        if ( $user->{user_id} ) {
+        if ( $row->{user_id} ) {
             $err_msg = 'User with such login already exists!';
             last CHECK;
         }
@@ -60,7 +64,12 @@ CHECK: {
         email    => $email
     );
 
-    my $user_id = FastNotes::Model::User->insert(\%user);
+    # my $user_id = FastNotes::Model::User->insert(\%user);
+	my $user_id = $self->app->db->create('users', {
+			login => $login,
+			password => $password,
+			email => $email,
+		});
 
     # Login User
     $self->session(

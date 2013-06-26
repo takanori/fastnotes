@@ -1,7 +1,5 @@
 package FastNotes::Model::Schema;
 use DBIx::Skinny::Schema;
-use strict;
-use warnings;
 use DateTime;
 use DateTime::Format::Strptime;
 use DateTime::Format::MySQL;
@@ -11,7 +9,7 @@ sub pre_insert_hook {
 	$args->{date} = DateTime->now(time_zone => 'Asia/Tokyo');
 }
 
-install_inflate_rule '^.+_on$' => callback {
+install_inflate_rule '^date$' => callback {
 	inflate {
 		my $value = shift;
 		my $dt = DateTime::Format::Strptime->new(
@@ -29,9 +27,14 @@ install_inflate_rule '^.+_on$' => callback {
 install_table users => schema {
 	pk 'user_id';
 	columns qw/user_id login password email jid gravatar/;
+};
+
+install_table notes => schema {
+	pk 'note_id';
+	columns qw/note_id user_id is_important is_todo is_deleted text date/;
 	trigger pre_insert => \&pre_insert_hook;
 };
 
-install_utf8_columns qw/login password email jid gravatar/;
+install_utf8_columns qw/login password email jid gravatar text/;
 
 1;
